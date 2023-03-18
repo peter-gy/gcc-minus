@@ -484,6 +484,6 @@ int main(int argc, char **argv)
 	printf("Errors detected.\n");
  }
 
- exit(result);
+ exit(0);
 }
 
