@@ -7,6 +7,8 @@
 char *input_filename = NULL;
 char *output_filename = "a.c";
 
+void yyerror(char *s);
+int yylex();
 %}
 
 
@@ -432,8 +434,7 @@ function_definition
 extern char yytext[];
 extern int column;
 
-yyerror(s)
-char *s;
+void yyerror(char *s)
 {
 	fflush(stdout);
 	printf("\n%*s\n%*s\n", column, "^", column, s);
