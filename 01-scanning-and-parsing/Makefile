@@ -10,15 +10,15 @@ parser:
 	rm -f lex.yy.c parser.tab.c parser.tab.h
 
 debug:
-	bison -d -t parser.y
+	bison -d -t -Wcounterexamples parser.y
 	flex -d scanner.l
 	gcc -g lex.yy.c parser.tab.c -o cparser
 
 clean:
-	rm -f lex.yy.c parser.tab.c parser.tab.h cparser 
+	rm -rf lex.yy.c parser.tab.c parser.tab.h cparser*
 
 clean_all:
-	rm -f lex.yy.c parser.tab.c parser.tab.h cparser *.lis 
+	rm -rf lex.yy.c parser.tab.c parser.tab.h cparser* *.lis 
 
 test: all
 	echo "✅ Should succeed"
