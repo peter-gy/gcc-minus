@@ -454,11 +454,16 @@ void yyerror(char *s) {
   printf("\n%*s\n%*s\n", column, "^", column, s);
 }
 
+/**
+ * The main function, the driver for the parser.
+ */
 int main(int argc, char **argv) {
   int i;
-
+  
+  // process command line arguments
   for (i = 1; i < argc; i++) {
-    if (*argv[i] == '-') {
+    // parsing a CLI option
+	if (*argv[i] == '-') {
       switch (*(argv[i] + 1)) {
         /* output option */
         case 'o':
@@ -491,6 +496,7 @@ int main(int argc, char **argv) {
     }
   }
 
+  // Actually run the parser, act on the result.
   int result = yyparse();
   if (result == 0) {
     printf("No errors detected.\n");

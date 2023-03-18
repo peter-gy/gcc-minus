@@ -115,40 +115,71 @@ L?\"(\\.|[^\\"])*\"	{ count(); return(STRING_LITERAL); }
 
 %%
 
+/* The yywrap function is used to signal the end of input to the lexer. It
+ * always returns 1. */
 int yywrap() { return (1); }
 
+/* The comment function is used to handle comments in the input. It reads
+   characters from the input until
+   it encounters
+   a '*' character, and then reads characters until it encounters a '/'
+   character. It prints all
+   of the
+   characters it reads, including the comment delimiters. If it encounters
+   another '*' before the '/',
+   it continues
+   to read characters until it finds the closing  */
 void comment() {
   char c, c1;
 
+  // Echo the characters being read to the output
   ECHO;
-loop:
-  while ((c = input()) != '*' && c != 0) putchar(c);
 
+loop:
+  // Read characters until '*' or end of input is encountered.
+  while ((c = input()) != '*' && c != 0)
+	putchar(c);
+
+  // Print the '*' character.
   putchar(c);
+
+  // If the next character is not '/', unput it and continue reading.
   if ((c1 = input()) != '/' && c != 0) {
     unput(c1);
     goto loop;
   }
 
+  // Print the '/' character if it was read.
   if (c != 0) putchar(c1);
 }
 
+/* The count function is used to keep track of the column number of the input.
+   It loops over the characters in `yytext` and increments the column variable for
+   each non-newline, non-tab character it encounters. If it encounters a
+   newline, it resets column to 0. If it encounters a tab, it increments column
+   to the next multiple of 8. */
 int column = 0;
 
 void count() {
   int i;
 
-  for (i = 0; yytext[i] != '\0'; i++)
+  for (i = 0; yytext[i] != '\0'; i++) {
     if (yytext[i] == '\n')
       column = 0;
     else if (yytext[i] == '\t')
       column += 8 - (column % 8);
     else
       column++;
+  }
 
+  // Echo the characters being read to the output
   ECHO;
 }
 
+/* The check_type function is used to determine whether the current lexeme being
+   recognized by the lexer corresponds to a type name or an identifier. 
+   The function as written always returns IDENTIFIER, indicating that every
+   lexeme is an identifier. */
 int check_type() {
   /*
    * pseudo code --- this is what it should check
