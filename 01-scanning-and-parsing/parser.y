@@ -390,6 +390,21 @@ expression_statement
 	| expression ';'
 	;
 
+/*
+We have a shift-reduce conflict here:
+
+Example: IF '(' expression ')' IF '(' expression ')' statement • ELSE statement
+  Shift derivation
+    selection_statement
+    ↳ 192: IF '(' expression ')' statement
+                                 ↳ 176: selection_statement
+                                        ↳ 193: IF '(' expression ')' statement • ELSE statement
+  Reduce derivation
+    selection_statement
+    ↳ 193: IF '(' expression ')' statement                                       ELSE statement
+                                 ↳ 176: selection_statement
+                                        ↳ 192: IF '(' expression ')' statement •
+*/
 selection_statement
 	: IF '(' expression ')' statement
 	| IF '(' expression ')' statement ELSE statement
@@ -486,4 +501,3 @@ int main(int argc, char **argv)
 
  exit(0);
 }
-
