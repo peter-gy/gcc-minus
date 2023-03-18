@@ -449,55 +449,54 @@ function_definition
 extern char yytext[];
 extern int column;
 
-void yyerror(char *s)
-{
-	fflush(stdout);
-	printf("\n%*s\n%*s\n", column, "^", column, s);
+void yyerror(char *s) {
+  fflush(stdout);
+  printf("\n%*s\n%*s\n", column, "^", column, s);
 }
 
-int main(int argc, char **argv)
-{
- int i;
+int main(int argc, char **argv) {
+  int i;
 
- for(i=1;i<argc;i++) {
-    if (*argv[i]=='-') {
-       switch(*(argv[i]+1)) {
-       /* output option */
-       case 'o':
-          output_filename=argv[i]+2;
+  for (i = 1; i < argc; i++) {
+    if (*argv[i] == '-') {
+      switch (*(argv[i] + 1)) {
+        /* output option */
+        case 'o':
+          output_filename = argv[i] + 2;
           break;
 
-       /********************************/
-       /* specify your own option here */
-       /********************************/
+          /********************************/
+          /* specify your own option here */
+          /********************************/
 
-       default:
-          fprintf(stderr,"%s: unknown argument option\n",argv[0]);
+        default:
+          fprintf(stderr, "%s: unknown argument option\n", argv[0]);
           exit(1);
-       }
+      }
     } else {
       if (input_filename != NULL) {
-         fprintf(stderr,"%s: only one input file allowed\n",argv[0]);
-         exit(1);
+        fprintf(stderr, "%s: only one input file allowed\n", argv[0]);
+        exit(1);
       }
       input_filename = argv[i];
     }
- }
+  }
 
- if (input_filename != NULL) {
-    if ((freopen(input_filename, "r",stdin))==NULL) {
-      fprintf(stderr,"%s: cannot open input file %s\n",argv[0],input_filename);
+  if (input_filename != NULL) {
+    if ((freopen(input_filename, "r", stdin)) == NULL) {
+      fprintf(stderr, "%s: cannot open input file %s\n", argv[0],
+              input_filename);
 
       exit(1);
     }
- }
+  }
 
- int result = yyparse();
- if (result == 0) {
-	printf("No errors detected.\n");
- } else {
-	printf("Errors detected.\n");
- }
+  int result = yyparse();
+  if (result == 0) {
+    printf("No errors detected.\n");
+  } else {
+    printf("Errors detected.\n");
+  }
 
- exit(0);
+  exit(0);
 }
