@@ -477,6 +477,13 @@ int main(int argc, char **argv)
     }
  }
 
- exit(yyparse());
+ int result = yyparse();
+ if (result == 0) {
+	printf("No errors detected.\n");
+ } else {
+	printf("Errors detected.\n");
+ }
+
+ exit(result);
 }
 
