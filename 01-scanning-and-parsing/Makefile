@@ -19,3 +19,9 @@ clean:
 
 clean_all:
 	rm -f lex.yy.c parser.tab.c parser.tab.h cparser *.lis 
+
+test: all
+	echo "✅ Should succeed"
+	./cparser ./test/random.c
+	echo "❌ Should fail"
+	./cparser ./test/randerr.c
