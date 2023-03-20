@@ -391,7 +391,8 @@ expression_statement
 	;
 
 /*
-We have a shift-reduce conflict here:
+We have a shift-reduce conflict here (Dangling else):
+(Example generated using `bison -d -t -Wcounterexamples parser.y`)
 
 Example: IF '(' expression ')' IF '(' expression ')' statement • ELSE statement
   Shift derivation
